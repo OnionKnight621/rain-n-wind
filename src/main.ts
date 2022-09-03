@@ -1,6 +1,6 @@
 import "./style.css";
 import { Drop, MousePos } from "./types";
-import { createDrop, draw, getmousePos } from "./utils";
+import { createDrop, draw, getMousePos, onResize } from "./utils";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 const rect = canvas.getBoundingClientRect();
@@ -16,12 +16,9 @@ const sExpand = document.getElementById("s-expand") as HTMLDivElement;
 const sCollapse = document.getElementById("s-collapse") as HTMLDivElement;
 const settings = document.getElementById("settings") as HTMLDivElement;
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+onResize(canvas);
 
 const ctx = canvas.getContext("2d");
-const width = canvas.width;
-const height = canvas.height;
 
 let particlesNum = Number(dropsInput.value) || 300;
 let dropColor = dropColorInput.value;
@@ -32,16 +29,30 @@ let mousePos: MousePos = null;
 let mousePress: boolean = false;
 
 for (let i = 0; i < particlesNum; i++) {
-  rainParticles.push(createDrop(width, height));
+  rainParticles.push(createDrop(canvas.width, canvas.height));
 }
 
 (function drawingLoop() {
   if (mousePress) {
-    draw({ particles: rainParticles, width, height, ctx, mousePos, dropColor });
+    draw({
+      particles: rainParticles,
+      width: canvas.width,
+      height: canvas.height,
+      ctx,
+      mousePos,
+      dropColor,
+    });
   } else {
-    draw({ particles: rainParticles, width, height, ctx, dropColor });
+    draw({
+      particles: rainParticles,
+      width: canvas.width,
+      height: canvas.height,
+      ctx,
+      dropColor,
+    });
   }
 
+  // onResize(canvas);
   window.requestAnimationFrame(drawingLoop);
 })();
 
@@ -52,7 +63,7 @@ function handleMouseDown(e: any) {
   if (e.target.dataset["type"] === "setting-item") return;
 
   mousePress = true;
-  mousePos = getmousePos(e, rect);
+  mousePos = getMousePos(e, rect);
 }
 
 function handleMouseUp() {
@@ -62,9 +73,11 @@ function handleMouseUp() {
 
 function handleMouseMove(e: any) {
   if (mousePress) {
-    mousePos = getmousePos(e, rect);
+    mousePos = getMousePos(e, rect);
   }
 }
+
+window.addEventListener("resize", () => onResize(canvas));
 
 window.addEventListener("mousedown", handleMouseDown);
 window.addEventListener("touchstart", handleMouseDown);
@@ -85,7 +98,7 @@ dropsInput.addEventListener("change", function (e: any) {
   rainParticles = [];
 
   for (let i = 0; i < particlesNum; i++) {
-    rainParticles.push(createDrop(width, height));
+    rainParticles.push(createDrop(canvas.width, canvas.height));
   }
 });
 

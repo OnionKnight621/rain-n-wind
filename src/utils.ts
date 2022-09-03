@@ -70,9 +70,14 @@ export function createDrop(
   };
 }
 
-export function getmousePos(e: MouseEvent, rect: DOMRect) {
+export function getMousePos(e: MouseEvent, rect: DOMRect) {
   return {
     x: e.clientX - rect.left,
     y: e.clientY - rect.top,
   };
+}
+
+export function onResize(canvas: HTMLCanvasElement) {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 }
