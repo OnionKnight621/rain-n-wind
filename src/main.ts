@@ -12,20 +12,14 @@ const ctx = canvas.getContext("2d");
 const width = canvas.width;
 const height = canvas.height;
 
-const maxParticles = 500;
+const maxParticles = 30;
 let rainParticles: Drop[] = [];
 
 let mousePos: MousePos = null;
 let mousePress: boolean = false;
 
-if (ctx) {
-  ctx.strokeStyle = "#41d3bd"; // "#fffff2"
-  ctx.lineWidth = 1;
-  ctx.lineCap = "round";
-
-  for (let i = 0; i < maxParticles; i++) {
-    rainParticles.push(createDrop(width, height));
-  }
+for (let i = 0; i < maxParticles; i++) {
+  rainParticles.push(createDrop(width, height));
 }
 
 (function drawingLoop() {

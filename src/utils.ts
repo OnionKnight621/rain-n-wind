@@ -16,6 +16,9 @@ export function draw(
   }
 
   if (ctx) {
+    ctx.strokeStyle = "#41d3bd"; // "#fffff2"
+    ctx.lineWidth = 1;
+    ctx.lineCap = "round";
     ctx.clearRect(0, 0, width, height);
 
     for (let i = 0; i < particles.length; i++) {
@@ -67,8 +70,8 @@ export function createDrop(
 }
 
 export function getmousePos(e: MouseEvent, rect: DOMRect) {
-    return {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-      };
+  return {
+    x: e.clientX - rect.left,
+    y: e.clientY - rect.top,
+  };
 }
