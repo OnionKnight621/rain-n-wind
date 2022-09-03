@@ -1,4 +1,4 @@
-import { DrawParams, Drop, MousePos } from "./types";
+import { DrawParams, Drop } from "./types";
 
 export function draw({
   particles,
