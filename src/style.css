@@ -20,7 +20,7 @@ body {
   height: fit-content;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 450px) {
   #hint {
     top: auto;
     bottom: 0;
