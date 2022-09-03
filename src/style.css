@@ -20,6 +20,14 @@ body {
   height: fit-content;
 }
 
+@media (max-width: 400px) {
+  #hint {
+    top: auto;
+    bottom: 0;
+    margin: auto auto 1rem auto;
+  }
+}
+
 #hint > span {
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
