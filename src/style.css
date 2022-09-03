@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #407899;
+  overflow: hidden;
+}
+
+#hint {
+  color: white;
+  background-color: rgba(10, 10, 10, 0.2);
+  border-radius: 2rem;
+  padding: 1rem 2rem;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: auto;
+  margin: 1rem auto auto auto;
+  width: fit-content;
+  height: fit-content;
+}
+
+#hint > span {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+}
