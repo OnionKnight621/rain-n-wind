@@ -70,10 +70,10 @@ export function createDrop(
   };
 }
 
-export function getMousePos(e: MouseEvent, rect: DOMRect) {
+export function getMousePos(x: number, y: number, rect: DOMRect) {
   return {
-    x: e.clientX - rect.left,
-    y: e.clientY - rect.top,
+    x: x - rect.left,
+    y: y - rect.top,
   };
 }
 

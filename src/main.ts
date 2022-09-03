@@ -56,14 +56,29 @@ for (let i = 0; i < particlesNum; i++) {
   window.requestAnimationFrame(drawingLoop);
 })();
 
-function handleMouseDown(e: any) {
+function handleMouseDown(e: MouseEvent) {
   // @ts-ignore
   if (e.target.id === "settings") return;
   // @ts-ignore
   if (e.target.dataset["type"] === "setting-item") return;
 
   mousePress = true;
-  mousePos = getMousePos(e, rect);
+
+  mousePos = getMousePos(e.clientX, e.clientY, rect);
+}
+
+function handleTouchStart(e: TouchEvent) {
+  // @ts-ignore
+  if (e.target.id === "settings") return;
+  // @ts-ignore
+  if (e.target.dataset["type"] === "setting-item") return;
+
+  mousePress = true;
+
+  if (e.touches) {
+    mousePos = getMousePos(e.touches[0].clientX, e.touches[0].clientY, rect);
+    return;
+  }
 }
 
 function handleMouseUp() {
@@ -71,22 +86,29 @@ function handleMouseUp() {
   mousePos = null;
 }
 
-function handleMouseMove(e: any) {
+function handleMouseMove(e: MouseEvent) {
   if (mousePress) {
-    mousePos = getMousePos(e, rect);
+    mousePos = getMousePos(e.clientX, e.clientY, rect);
+  }
+}
+
+function handleTouchMove(e: TouchEvent) {
+  if (mousePress && e.touches) {
+    mousePos = getMousePos(e.touches[0].clientX, e.touches[0].clientY, rect);
+    return;
   }
 }
 
 window.addEventListener("resize", () => onResize(canvas));
 
 window.addEventListener("mousedown", handleMouseDown);
-window.addEventListener("touchstart", handleMouseDown);
+window.addEventListener("touchstart", handleTouchStart);
 
 window.addEventListener("mouseup", handleMouseUp);
 window.addEventListener("touchend", handleMouseUp);
 
 window.addEventListener("mousemove", handleMouseMove);
-window.addEventListener("touchmove", handleMouseMove);
+window.addEventListener("touchmove", handleTouchMove);
 
 hint.addEventListener("click", function () {
   this.style.display = "none";
