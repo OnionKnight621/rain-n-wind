@@ -45,7 +45,7 @@ for (let i = 0; i < particlesNum; i++) {
   window.requestAnimationFrame(drawingLoop);
 })();
 
-window.addEventListener("mousedown", function (e: MouseEvent) {
+function handleMouseDown(e: any) {
   // @ts-ignore
   if (e.target.id === "settings") return;
   // @ts-ignore
@@ -53,18 +53,27 @@ window.addEventListener("mousedown", function (e: MouseEvent) {
 
   mousePress = true;
   mousePos = getmousePos(e, rect);
-});
+}
 
-window.addEventListener("mouseup", function () {
+function handleMouseUp() {
   mousePress = false;
   mousePos = null;
-});
+}
 
-window.addEventListener("mousemove", function (e: MouseEvent) {
+function handleMouseMove(e: any) {
   if (mousePress) {
     mousePos = getmousePos(e, rect);
   }
-});
+}
+
+window.addEventListener("mousedown", handleMouseDown);
+window.addEventListener("touchstart", handleMouseDown);
+
+window.addEventListener("mouseup", handleMouseUp);
+window.addEventListener("touchend", handleMouseUp);
+
+window.addEventListener("mousemove", handleMouseMove);
+window.addEventListener("touchmove", handleMouseMove);
 
 hint.addEventListener("click", function () {
   this.style.display = "none";
