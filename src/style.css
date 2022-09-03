@@ -28,3 +28,46 @@ body {
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none;
 }
+
+#settings,
+#s-expand {
+  color: white;
+  background-color: rgba(10, 10, 10, 0.2);
+  border-radius: 2rem;
+  padding: 1rem 2rem;
+  position: fixed;
+  left: auto;
+  right: 0;
+  top: 0;
+  bottom: auto;
+  margin: 1rem 1rem auto auto;
+  width: fit-content;
+  height: fit-content;
+}
+
+#settings {
+  display: none;
+}
+
+#settings input {
+  width: 5rem;
+  background-color: inherit;
+  color: inherit;
+  border: 1px solid white;
+}
+
+#settings input[type="number"] {
+  padding: 0.3rem 0;
+}
+
+#s-expand:hover,
+#s-collapse:hover,
+#hint:hover {
+  color: #de6449;
+  cursor: pointer;
+}
+
+#s-collapse {
+  float: right;
+  padding: 0 0 0 1rem;
+}

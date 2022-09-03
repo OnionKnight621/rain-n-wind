@@ -1,12 +1,13 @@
-import { Drop, MousePos } from "./types";
+import { DrawParams, Drop, MousePos } from "./types";
 
-export function draw(
-  particles: Drop[],
-  width: number,
-  height: number,
-  ctx: CanvasRenderingContext2D | null,
-  mousePos: MousePos = null
-) {
+export function draw({
+  particles,
+  width,
+  height,
+  ctx,
+  mousePos,
+  dropColor = "#41d3bd",
+}: DrawParams) {
   let xsMod = 0;
   let ysMod = 0;
 
@@ -16,7 +17,7 @@ export function draw(
   }
 
   if (ctx) {
-    ctx.strokeStyle = "#41d3bd"; // "#fffff2"
+    ctx.strokeStyle = dropColor; // "#fffff2"
     ctx.lineWidth = 1;
     ctx.lineCap = "round";
     ctx.clearRect(0, 0, width, height);

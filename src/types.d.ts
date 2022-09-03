@@ -19,4 +19,5 @@ export interface DrawParams {
   height: number;
   ctx: CanvasRenderingContext2D | null;
   mousePos?: MousePos;
+  dropColor?: string;
 }
