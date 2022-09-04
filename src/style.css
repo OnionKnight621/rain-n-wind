@@ -69,12 +69,16 @@ body {
   width: 5rem;
   background-color: inherit;
   color: inherit;
-  border: 1px solid white;
+  border: 3px solid white;
+  border-right: 0px;
+  border-top: 0px;
+  border-bottom: 0px;
 }
 
 #settings input[type="number"],
 #settings input[type="button"]  {
-  padding: 0.3rem 0;
+  padding: 0.3rem 0 0.3rem 0.3rem;
+  text-align: left;
 }
 
 #settings table label:hover,
