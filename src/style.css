@@ -20,11 +20,19 @@ body {
   height: fit-content;
 }
 
+#hint #context:before {
+  content: "PUSH LMB";
+}
+
 @media (max-width: 450px) {
   #hint {
     top: auto;
     bottom: 0;
     margin: auto auto 1rem auto;
+  }
+
+  #hint #context:before {
+    content: "TOUCH";
   }
 }
 
