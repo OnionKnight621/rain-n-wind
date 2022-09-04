@@ -20,5 +20,6 @@ export interface DrawParams {
   ctx: CanvasRenderingContext2D | null;
   mousePos?: MousePos;
   dropColor?: string;
-  mute?: boolean;
+  mute: boolean;
+  freq: number;
 }

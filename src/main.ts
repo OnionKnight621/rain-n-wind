@@ -15,6 +15,7 @@ const muteInput = document.getElementById("mute") as HTMLButtonElement;
 const incrementInput = document.getElementById(
   "increment"
 ) as HTMLButtonElement;
+const frequencyInput = document.getElementById("frequency") as HTMLInputElement;
 
 onResize(canvas);
 
@@ -63,6 +64,7 @@ for (let i = 0; i < particlesNum; i++) {
       mousePos,
       dropColor,
       mute,
+      freq: Number(frequencyInput.value) > 1 ? Number(frequencyInput.value) : 200
     });
   } else {
     draw({
@@ -72,6 +74,7 @@ for (let i = 0; i < particlesNum; i++) {
       ctx,
       dropColor,
       mute,
+      freq: Number(frequencyInput.value) > 1 ? Number(frequencyInput.value) : 200
     });
   }
 
@@ -145,15 +148,19 @@ bgColorInput.addEventListener("change", function (e: any) {
 });
 
 muteInput.addEventListener("click", function () {
-  if (this.value.toLowerCase() === AUDIO_STATES.MUTED)
+  const freqRow = frequencyInput.parentElement?.parentElement as HTMLElement;
+  if (this.value.toLowerCase() === AUDIO_STATES.MUTED) {
+    freqRow.style.display = "table-row";
     return (this.value = AUDIO_STATES.UNMUTED);
-  if (this.value.toLowerCase() === AUDIO_STATES.UNMUTED)
-    return (this.value = AUDIO_STATES.MUTED);
+  }
+
+  freqRow.style.display = "none";
+  return (this.value = AUDIO_STATES.MUTED);
 });
 
 incrementInput.addEventListener("click", function () {
-  if (this.value.toLowerCase() === INCREMENT_STATES.AUTO)
-    return (this.value = INCREMENT_STATES.NONE);
   if (this.value.toLowerCase() === INCREMENT_STATES.NONE)
     return (this.value = INCREMENT_STATES.AUTO);
+
+  return (this.value = INCREMENT_STATES.NONE);
 });

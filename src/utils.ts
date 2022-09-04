@@ -10,6 +10,7 @@ export function draw({
   mousePos,
   dropColor = "#41d3bd",
   mute,
+  freq,
 }: DrawParams) {
   let xsMod = 0;
   let ysMod = 0;
@@ -34,7 +35,7 @@ export function draw({
       ctx.stroke();
     }
 
-    move(particles, width, height, xsMod, ysMod, mute);
+    move(particles, width, height, xsMod, ysMod, mute, freq);
   }
 }
 
@@ -44,7 +45,8 @@ export function move(
   height: number,
   xsMod: number = 0,
   ysMod: number = 0,
-  mute = true
+  mute = true,
+  freq: number
 ) {
   for (let i = 0; i < particles.length; i++) {
     let p = particles[i];
@@ -57,7 +59,7 @@ export function move(
       p.y = -20;
 
       if (i % 5 == 0 && i < 1000 && !mute) {
-        notePlay(i / 5);
+        notePlay(i / 5, freq);
       }
     }
   }
@@ -99,7 +101,7 @@ export function onResize(canvas: HTMLCanvasElement) {
   canvas.height = window.innerHeight;
 }
 
-export function notePlay(i: number) {
+export function notePlay(i: number, freq: number) {
   let dur = 0.3;
 
   if (audioCtx === null) {
@@ -114,7 +116,7 @@ export function notePlay(i: number) {
   gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + dur);
 
   osc.type = "sine";
-  osc.frequency.value = (Math.random() * 200 * (i + 1)) / 3;
+  osc.frequency.value = (Math.random() * freq * (i + 1)) / 3;
 
   osc.connect(gainNode);
   gainNode.connect(audioCtx.destination);
