@@ -112,7 +112,7 @@ export function notePlay(i: number, freq: number) {
   let gainNode = audioCtx.createGain();
 
   gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-  gainNode.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + 0.01);
+  gainNode.gain.linearRampToValueAtTime(0.05, audioCtx.currentTime + 0.01);
   gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + dur);
 
   osc.type = "sine";
