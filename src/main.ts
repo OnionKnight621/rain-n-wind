@@ -1,5 +1,10 @@
 import "./style.css";
-import { AUDIO_STATES, INCREMENT_STATES, MAX_PARTICLES } from "./constants";
+import {
+  AUDIO_STATES,
+  INCREMENT_STATES,
+  MAX_PARTICLES,
+  WAVE_TYPES,
+} from "./constants";
 import { Drop, MousePos } from "./types";
 import { createDrop, draw, getMousePos, onResize, stopHandling } from "./utils";
 
@@ -16,6 +21,7 @@ const incrementInput = document.getElementById(
   "increment"
 ) as HTMLButtonElement;
 const frequencyInput = document.getElementById("frequency") as HTMLInputElement;
+const typeInput = document.getElementById("type") as HTMLInputElement;
 
 onResize(canvas);
 
@@ -59,6 +65,7 @@ for (let i = 0; i < particlesNum; i++) {
       mute,
       freq:
         Number(frequencyInput.value) > 1 ? Number(frequencyInput.value) : 200,
+      type: typeInput.value as OscillatorType,
     });
   } else {
     draw({
@@ -70,6 +77,7 @@ for (let i = 0; i < particlesNum; i++) {
       mute,
       freq:
         Number(frequencyInput.value) > 1 ? Number(frequencyInput.value) : 200,
+      type: typeInput.value as OscillatorType,
     });
   }
 
@@ -144,12 +152,15 @@ bgColorInput.addEventListener("change", function (e: any) {
 
 muteInput.addEventListener("click", function () {
   const freqRow = frequencyInput.parentElement?.parentElement as HTMLElement;
+  const typeRow = typeInput.parentElement?.parentElement as HTMLElement;
   if (this.value.toLowerCase() === AUDIO_STATES.MUTED) {
     freqRow.style.display = "table-row";
+    typeRow.style.display = "table-row";
     return (this.value = AUDIO_STATES.UNMUTED);
   }
 
   freqRow.style.display = "none";
+  typeRow.style.display = "none";
   return (this.value = AUDIO_STATES.MUTED);
 });
 
@@ -158,4 +169,20 @@ incrementInput.addEventListener("click", function () {
     return (this.value = INCREMENT_STATES.AUTO);
 
   return (this.value = INCREMENT_STATES.NONE);
+});
+
+typeInput.addEventListener("click", function () {
+  if (this.value.toLowerCase() === WAVE_TYPES.SAWTOOTH)
+    return (this.value = WAVE_TYPES.SINE);
+
+  if (this.value.toLowerCase() === WAVE_TYPES.SINE)
+    return (this.value = WAVE_TYPES.SQUARE);
+
+  if (this.value.toLowerCase() === WAVE_TYPES.SQUARE)
+    return (this.value = WAVE_TYPES.TRIANGLE);
+
+  if (this.value.toLowerCase() === WAVE_TYPES.TRIANGLE)
+    return (this.value = WAVE_TYPES.SAWTOOTH);
+
+  return (this.value = WAVE_TYPES.SAWTOOTH);
 });

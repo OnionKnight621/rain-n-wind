@@ -8,4 +8,11 @@ export const INCREMENT_STATES = {
   NONE: "none",
 };
 
+export const WAVE_TYPES = {
+  SINE: "sine",
+  SAWTOOTH: "sawtooth",
+  SQUARE: "square",
+  TRIANGLE: "triangle",
+};
+
 export const MAX_PARTICLES = 5000;

@@ -22,4 +22,5 @@ export interface DrawParams {
   dropColor?: string;
   mute: boolean;
   freq: number;
+  type: OscillatorType;
 }

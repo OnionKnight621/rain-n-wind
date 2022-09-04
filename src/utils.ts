@@ -11,6 +11,7 @@ export function draw({
   dropColor = "#41d3bd",
   mute,
   freq,
+  type
 }: DrawParams) {
   let xsMod = 0;
   let ysMod = 0;
@@ -35,7 +36,7 @@ export function draw({
       ctx.stroke();
     }
 
-    move(particles, width, height, xsMod, ysMod, mute, freq);
+    move(particles, width, height, xsMod, ysMod, mute, freq, type);
   }
 }
 
@@ -46,7 +47,8 @@ export function move(
   xsMod: number = 0,
   ysMod: number = 0,
   mute = true,
-  freq: number
+  freq: number,
+  type: OscillatorType
 ) {
   for (let i = 0; i < particles.length; i++) {
     let p = particles[i];
@@ -59,7 +61,7 @@ export function move(
       p.y = -20;
 
       if (i % 5 == 0 && i < 1000 && !mute) {
-        notePlay(i / 5, freq);
+        notePlay(i / 5, freq, type);
       }
     }
   }
@@ -101,7 +103,7 @@ export function onResize(canvas: HTMLCanvasElement) {
   canvas.height = window.innerHeight;
 }
 
-export function notePlay(i: number, freq: number) {
+export function notePlay(i: number, freq: number, type: OscillatorType = "sine") {
   let dur = 0.3;
 
   if (audioCtx === null) {
@@ -115,7 +117,7 @@ export function notePlay(i: number, freq: number) {
   gainNode.gain.linearRampToValueAtTime(0.05, audioCtx.currentTime + 0.01);
   gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + dur);
 
-  osc.type = "sine";
+  osc.type = type;
   osc.frequency.value = (Math.random() * freq * (i + 1)) / 3;
 
   osc.connect(gainNode);
