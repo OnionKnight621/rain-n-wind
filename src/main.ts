@@ -1,20 +1,15 @@
 import "./style.css";
 import { Drop, MousePos } from "./types";
-import { createDrop, draw, getMousePos, onResize } from "./utils";
+import { createDrop, draw, getMousePos, onResize, stopHandling } from "./utils";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 const rect = canvas.getBoundingClientRect();
 
-const hint = document.getElementById("hint") as HTMLDivElement;
 const dropsInput = document.getElementById("drops") as HTMLInputElement;
 const dropColorInput = document.getElementById(
   "drop-color"
 ) as HTMLInputElement;
 const bgColorInput = document.getElementById("bg-color") as HTMLInputElement;
-
-const sExpand = document.getElementById("s-expand") as HTMLDivElement;
-const sCollapse = document.getElementById("s-collapse") as HTMLDivElement;
-const settings = document.getElementById("settings") as HTMLDivElement;
 
 onResize(canvas);
 
@@ -57,10 +52,7 @@ for (let i = 0; i < particlesNum; i++) {
 })();
 
 function handleMouseDown(e: MouseEvent) {
-  // @ts-ignore
-  if (e.target.id === "settings") return;
-  // @ts-ignore
-  if (e.target.dataset["type"] === "setting-item") return;
+  if (stopHandling(e)) return;
 
   mousePress = true;
 
@@ -68,16 +60,12 @@ function handleMouseDown(e: MouseEvent) {
 }
 
 function handleTouchStart(e: TouchEvent) {
-  // @ts-ignore
-  if (e.target.id === "settings") return;
-  // @ts-ignore
-  if (e.target.dataset["type"] === "setting-item") return;
+  if (stopHandling(e)) return;
 
   mousePress = true;
 
   if (e.touches) {
     mousePos = getMousePos(e.touches[0].clientX, e.touches[0].clientY, rect);
-    return;
   }
 }
 
@@ -110,10 +98,6 @@ window.addEventListener("touchend", handleMouseUp);
 window.addEventListener("mousemove", handleMouseMove);
 window.addEventListener("touchmove", handleTouchMove);
 
-hint.addEventListener("click", function () {
-  this.style.display = "none";
-});
-
 dropsInput.addEventListener("change", function (e: any) {
   particlesNum = Number(e.target.value);
 
@@ -131,14 +115,4 @@ dropColorInput.addEventListener("change", function (e: any) {
 bgColorInput.addEventListener("change", function (e: any) {
   document.getElementsByTagName("body")[0].style.backgroundColor =
     e.target.value;
-});
-
-sExpand.addEventListener("click", function () {
-  settings.style.display = "initial";
-  sExpand.style.display = "none";
-});
-
-sCollapse.addEventListener("click", function () {
-  settings.style.display = "none";
-  sExpand.style.display = "initial";
 });

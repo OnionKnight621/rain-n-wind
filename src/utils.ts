@@ -77,6 +77,15 @@ export function getMousePos(x: number, y: number, rect: DOMRect) {
   };
 }
 
+export function stopHandling(e: MouseEvent | TouchEvent) {
+  const target = e.target as HTMLElement;
+
+  if (target.id === "settings") return true;
+  if (target.dataset["type"] === "setting-item") return true;
+
+  return false;
+}
+
 export function onResize(canvas: HTMLCanvasElement) {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
