@@ -23,12 +23,9 @@ const ctx = canvas.getContext("2d");
 
 let particlesNum = Number(dropsInput.value) || 300;
 let dropColor = dropColorInput.value;
-
 let rainParticles: Drop[] = [];
-
 let mousePos: MousePos = null;
 let mousePress: boolean = false;
-
 let lastUpd = 0;
 
 for (let i = 0; i < particlesNum; i++) {
@@ -48,11 +45,7 @@ for (let i = 0; i < particlesNum; i++) {
 
     dropsInput.value = `${particlesNum}`;
 
-    rainParticles = [];
-
-    for (let i = 0; i < particlesNum; i++) {
-      rainParticles.push(createDrop(canvas.width, canvas.height));
-    }
+    rainParticles.push(createDrop(canvas.width, canvas.height));
   }
 
   if (mousePress) {
@@ -64,7 +57,8 @@ for (let i = 0; i < particlesNum; i++) {
       mousePos,
       dropColor,
       mute,
-      freq: Number(frequencyInput.value) > 1 ? Number(frequencyInput.value) : 200
+      freq:
+        Number(frequencyInput.value) > 1 ? Number(frequencyInput.value) : 200,
     });
   } else {
     draw({
@@ -74,7 +68,8 @@ for (let i = 0; i < particlesNum; i++) {
       ctx,
       dropColor,
       mute,
-      freq: Number(frequencyInput.value) > 1 ? Number(frequencyInput.value) : 200
+      freq:
+        Number(frequencyInput.value) > 1 ? Number(frequencyInput.value) : 200,
     });
   }
 

@@ -77,7 +77,7 @@ body {
 }
 
 #settings input[type="number"],
-#settings input[type="button"]  {
+#settings input[type="button"] {
   padding: 0.3rem 0 0.3rem 0.3rem;
   text-align: left;
 }
