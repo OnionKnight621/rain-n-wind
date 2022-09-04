@@ -18,6 +18,7 @@ body {
   margin: 1rem auto auto auto;
   width: fit-content;
   height: fit-content;
+  text-align: center;
 }
 
 #hint #context:before {
