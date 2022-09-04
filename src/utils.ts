@@ -56,8 +56,6 @@ export function move(
       p.x = Math.random() * width;
       p.y = -20;
 
-      console.log(mute)
-
       if (i % 5 == 0 && i < 1000 && !mute) {
         notePlay(i / 5);
       }

@@ -1,5 +1,5 @@
 import "./style.css";
-import { AUDIO_STATES } from "./constants";
+import { AUDIO_STATES, INCREMENT_STATES, MAX_PARTICLES } from "./constants";
 import { Drop, MousePos } from "./types";
 import { createDrop, draw, getMousePos, onResize, stopHandling } from "./utils";
 
@@ -12,6 +12,9 @@ const dropColorInput = document.getElementById(
 ) as HTMLInputElement;
 const bgColorInput = document.getElementById("bg-color") as HTMLInputElement;
 const muteInput = document.getElementById("mute") as HTMLButtonElement;
+const incrementInput = document.getElementById(
+  "increment"
+) as HTMLButtonElement;
 
 onResize(canvas);
 
@@ -25,12 +28,31 @@ let rainParticles: Drop[] = [];
 let mousePos: MousePos = null;
 let mousePress: boolean = false;
 
+let lastUpd = 0;
+
 for (let i = 0; i < particlesNum; i++) {
   rainParticles.push(createDrop(canvas.width, canvas.height));
 }
 
 (function drawingLoop() {
-  const mute = muteInput.value.toLowerCase() === AUDIO_STATES.MUTED
+  const mute = muteInput.value.toLowerCase() === AUDIO_STATES.MUTED;
+  const incr = incrementInput.value.toLowerCase() === INCREMENT_STATES.AUTO;
+
+  if (particlesNum > MAX_PARTICLES || particlesNum < 1) particlesNum = 10;
+
+  if (incr && (!lastUpd || Date.now() - lastUpd >= 2 * 1000)) {
+    lastUpd = Date.now();
+
+    particlesNum++;
+
+    dropsInput.value = `${particlesNum}`;
+
+    rainParticles = [];
+
+    for (let i = 0; i < particlesNum; i++) {
+      rainParticles.push(createDrop(canvas.width, canvas.height));
+    }
+  }
 
   if (mousePress) {
     draw({
@@ -40,7 +62,7 @@ for (let i = 0; i < particlesNum; i++) {
       ctx,
       mousePos,
       dropColor,
-      mute
+      mute,
     });
   } else {
     draw({
@@ -49,7 +71,7 @@ for (let i = 0; i < particlesNum; i++) {
       height: canvas.height,
       ctx,
       dropColor,
-      mute
+      mute,
     });
   }
 
@@ -123,6 +145,15 @@ bgColorInput.addEventListener("change", function (e: any) {
 });
 
 muteInput.addEventListener("click", function () {
-  if (this.value.toLowerCase() === AUDIO_STATES.MUTED) return this.value = AUDIO_STATES.UNMUTED;
-  if (this.value.toLowerCase() === AUDIO_STATES.UNMUTED) return this.value = AUDIO_STATES.MUTED;
-})
+  if (this.value.toLowerCase() === AUDIO_STATES.MUTED)
+    return (this.value = AUDIO_STATES.UNMUTED);
+  if (this.value.toLowerCase() === AUDIO_STATES.UNMUTED)
+    return (this.value = AUDIO_STATES.MUTED);
+});
+
+incrementInput.addEventListener("click", function () {
+  if (this.value.toLowerCase() === INCREMENT_STATES.AUTO)
+    return (this.value = INCREMENT_STATES.NONE);
+  if (this.value.toLowerCase() === INCREMENT_STATES.NONE)
+    return (this.value = INCREMENT_STATES.AUTO);
+});
