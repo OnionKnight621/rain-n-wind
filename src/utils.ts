@@ -1,5 +1,7 @@
 import { DrawParams, Drop } from "./types";
 
+let audioCtx: AudioContext | null = null;
+
 export function draw({
   particles,
   width,
@@ -7,6 +9,7 @@ export function draw({
   ctx,
   mousePos,
   dropColor = "#41d3bd",
+  mute,
 }: DrawParams) {
   let xsMod = 0;
   let ysMod = 0;
@@ -18,7 +21,7 @@ export function draw({
 
   if (ctx) {
     ctx.strokeStyle = dropColor; // "#fffff2"
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 2;
     ctx.lineCap = "round";
     ctx.clearRect(0, 0, width, height);
 
@@ -31,7 +34,7 @@ export function draw({
       ctx.stroke();
     }
 
-    move(particles, width, height, xsMod, ysMod);
+    move(particles, width, height, xsMod, ysMod, mute);
   }
 }
 
@@ -40,7 +43,8 @@ export function move(
   width: number,
   height: number,
   xsMod: number = 0,
-  ysMod: number = 0
+  ysMod: number = 0,
+  mute = true
 ) {
   for (let i = 0; i < particles.length; i++) {
     let p = particles[i];
@@ -51,6 +55,12 @@ export function move(
     if (p.x > width || p.y > height) {
       p.x = Math.random() * width;
       p.y = -20;
+
+      console.log(mute)
+
+      if (i % 5 == 0 && i < 1000 && !mute) {
+        notePlay(i / 5);
+      }
     }
   }
 }
@@ -89,4 +99,28 @@ export function stopHandling(e: MouseEvent | TouchEvent) {
 export function onResize(canvas: HTMLCanvasElement) {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
+}
+
+export function notePlay(i: number) {
+  let dur = 0.3;
+
+  if (audioCtx === null) {
+    audioCtx = new AudioContext({ latencyHint: 2 });
+  }
+
+  let osc = audioCtx.createOscillator();
+  let gainNode = audioCtx.createGain();
+
+  gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+  gainNode.gain.linearRampToValueAtTime(0.1, audioCtx.currentTime + 0.01);
+  gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + dur);
+
+  osc.type = "sine";
+  osc.frequency.value = (Math.random() * 200 * (i + 1)) / 3;
+
+  osc.connect(gainNode);
+  gainNode.connect(audioCtx.destination);
+
+  osc.start(audioCtx.currentTime);
+  osc.stop(audioCtx.currentTime + dur);
 }

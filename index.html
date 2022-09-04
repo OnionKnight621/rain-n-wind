@@ -9,7 +9,9 @@
     <div id="app">
       <canvas id="canvas"></canvas>
       <div id="hint">
-        <span class="none-select"><span id="context"></span> TO DO SOME WIND</span>
+        <span class="none-select"
+          ><span id="context"></span> TO DO SOME WIND</span
+        >
       </div>
       <div id="settings" class="none-select">
         <div data-type="setting-item" id="s-collapse">⮝</div>
@@ -24,7 +26,18 @@
                   type="number"
                   id="drops"
                   data-type="setting-item"
-                  value="600"
+                  value="10"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td><label for="mute" data-type="setting-item">Audio: </label></td>
+              <td>
+                <input
+                  type="button"
+                  data-type="setting-item"
+                  id="mute"
+                  value="muted"
                 />
               </td>
             </tr>

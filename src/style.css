@@ -72,8 +72,15 @@ body {
   border: 1px solid white;
 }
 
-#settings input[type="number"] {
+#settings input[type="number"],
+#settings input[type="button"]  {
   padding: 0.3rem 0;
+}
+
+#settings table label:hover,
+#settings table input:hover {
+  color: #de6449;
+  border-color: #de6449;
 }
 
 #s-expand:hover,

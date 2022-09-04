@@ -1,4 +1,5 @@
 import "./style.css";
+import { AUDIO_STATES } from "./constants";
 import { Drop, MousePos } from "./types";
 import { createDrop, draw, getMousePos, onResize, stopHandling } from "./utils";
 
@@ -10,6 +11,7 @@ const dropColorInput = document.getElementById(
   "drop-color"
 ) as HTMLInputElement;
 const bgColorInput = document.getElementById("bg-color") as HTMLInputElement;
+const muteInput = document.getElementById("mute") as HTMLButtonElement;
 
 onResize(canvas);
 
@@ -28,6 +30,8 @@ for (let i = 0; i < particlesNum; i++) {
 }
 
 (function drawingLoop() {
+  const mute = muteInput.value.toLowerCase() === AUDIO_STATES.MUTED
+
   if (mousePress) {
     draw({
       particles: rainParticles,
@@ -36,6 +40,7 @@ for (let i = 0; i < particlesNum; i++) {
       ctx,
       mousePos,
       dropColor,
+      mute
     });
   } else {
     draw({
@@ -44,10 +49,10 @@ for (let i = 0; i < particlesNum; i++) {
       height: canvas.height,
       ctx,
       dropColor,
+      mute
     });
   }
 
-  // onResize(canvas);
   window.requestAnimationFrame(drawingLoop);
 })();
 
@@ -116,3 +121,8 @@ bgColorInput.addEventListener("change", function (e: any) {
   document.getElementsByTagName("body")[0].style.backgroundColor =
     e.target.value;
 });
+
+muteInput.addEventListener("click", function () {
+  if (this.value.toLowerCase() === AUDIO_STATES.MUTED) return this.value = AUDIO_STATES.UNMUTED;
+  if (this.value.toLowerCase() === AUDIO_STATES.UNMUTED) return this.value = AUDIO_STATES.MUTED;
+})
